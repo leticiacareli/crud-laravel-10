@@ -2,16 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use Illuminate\Http\Request;
 
 class BrandController extends Controller
 {
+    public readonly Brand $brand;
+
+    public function __construct()
+    {
+        $this->brand = new Brand();
+    }
+    
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $brands = $this->brand->all();
+        return view('brand/brands', ['brands' => $brands]);
     }
 
     /**
@@ -41,9 +50,9 @@ class BrandController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Brand $brand)
     {
-        //
+        return view('brand/brand_edit', ['brand' => $brand]);
     }
 
     /**
@@ -51,7 +60,14 @@ class BrandController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $updated = $this->brand->where('id', $id)->update($request->except(['_token', '_method']));
+
+        if($updated){
+            return redirect()->back()->with('message', 'Successfully updated');
+        }
+        else{
+            return redirect()->back()->with('message', 'Error');
+        }
     }
 
     /**
