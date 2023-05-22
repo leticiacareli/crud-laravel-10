@@ -2,7 +2,9 @@
 
 @section('content')
 
-<table class="table table-striped">
+<a href="{{route('brands.create')}}"><button class="btn btn-primary">Create</button></a>
+
+<table class="table table-striped mt-5">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -23,6 +25,10 @@
 
         <a href="#">
           <i class="bi bi-trash-fill"></i>
+        </a>
+
+        <a href="{{route('brands.show', ['brand' => $brand->id])}}">
+          <i class="bi bi-eye-fill"></i>
         </a>
       </td>
     </tr>

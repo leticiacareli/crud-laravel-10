@@ -28,7 +28,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        //
+        return view('brand/brand_create');
     }
 
     /**
@@ -36,15 +36,24 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $created = $this->brand->create([
+            'description' => $request->input('description'),
+        ]);
+
+        if($created){
+            return redirect()->back()->with('message', 'Succesfully created');
+        }
+        else{
+            return redirect()->back()->with('message', 'Error created');
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Brand $brand)
     {
-        //
+        return view('brand/brand_show', ['brand' => $brand]);
     }
 
     /**
@@ -75,6 +84,7 @@ class BrandController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->brand->where('id', $id)->delete();
+        return redirect()->route('brands.index');
     }
 }
